@@ -1,0 +1,20 @@
+#!/usr/bin/python
+
+import socket
+import sys
+
+if len(sys.argv) != 4:
+    print 'usage:', sys.argv[0], '<multicast group>', '<multicast port>', '<message>'
+    sys.exit(0)
+
+mcast_group = sys.argv[1]
+mcast_port = int(sys.argv[2])
+message = sys.argv[3]
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 2)
+
+print 'multicasting', message, 'to', mcast_group, 'port', mcast_port
+
+sock.sendto(message, (mcast_group, mcast_port))
+
